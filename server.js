@@ -6,6 +6,10 @@ const db = require('./config/db');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const authRoutes = require('./routes/authRoutes');
+const productRoutes = require('./routes/productRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+
 // Middleware
 
 app.use(express.json());
@@ -20,3 +24,7 @@ app.get('/', (req,res) => {
 app.listen(PORT, () => {
     console.log("Servidor aberto")
 });
+
+app.use('/api/auth', authRoutes);
+app.use('/api/produtos', productRoutes);
+app.use('/api/pedidos', orderRoutes);
