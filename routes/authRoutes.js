@@ -5,8 +5,13 @@ const db = require('../config/db');
 const router = express.Router();
 
 router.post('/register', async (req,res) => {
+    console.log('corpo da requisição', req.body);
     const {nome, email, senha} = req.body;
-    const hashedPassword = await ncrypt.hash(senha,10);
+
+    if(!senha) {
+        return res.status(400).json({ error: 'A senha é obrigatória'});
+    }
+    const hashedPassword = await bcrypt.hash(senha, 10);
 
     db.query('INSERT INTO users (nome, email, senha) VALUES (?,?,?)', [nome, email, hashedPassword], (err, result) => {
         if (err) return res.status(500).json({error: err});
